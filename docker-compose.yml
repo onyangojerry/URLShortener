@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  db:
+    container_name: postgres_db
+    image: postgres:14
+    restart: always
+    environment:
+      POSTGRES_USER: shortener_user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: urlshortener
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shortener_user -d urlshortener"]
+      interval: 10s
+      retries: 5
+
+  redis_cache:
+    container_name: redis_cache
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+
+  app:
+    container_name: url_shortener_app
+    build: .
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: urlshortener
+      DB_USER: shortener_user
+      DB_PASSWORD: password
+      REDIS_HOST: redis_cache
+      REDIS_PORT: 6379
+
+volumes:
+  postgres_data:
