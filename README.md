@@ -155,4 +155,3 @@ This project is licensed under the **MIT License**.
   git push -u origin main
   ```
 
-Once you've pushed it to GitHub, let me know if you need help setting up **GitHub Actions for automated testing** or **deployment to the cloud!** 🚀🔥
