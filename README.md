@@ -1,6 +1,3 @@
-Here’s a well-structured **README.md** file for your URL Shortener project. It includes installation instructions, usage details, and future enhancements.
-
----
 
 ### **README.md**
 
